@@ -1,0 +1,18 @@
+<h1>Result Page</h1>
+<ul>
+	<% data["Search"].forEach((movie)=>{ %>
+		<li>
+			<strong>
+				<%= movie.Title %>
+			</strong>
+			 - <%= movie["Year"] %>
+			 <span><img src="<%= movie['Poster'] %>" style="width:30px" ></span>
+			 <span>ImdbID - <%= movie["imdbID"] %> </span>
+			 <span>Type - <%= movie.Type %></span>
+		</li>
+    <% }) %>
+</ul>
+
+<h3><%= data.totalResults %></h3>
+<h3><%= data.Response %></h3>
+<a href="/">Search Again!!</a>
