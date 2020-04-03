@@ -40,7 +40,7 @@ app.get("/search", (req, res)=>{
 			res.send("Error Occured! Please Try again");
 		}
 	});
-})
+});
 
 app.listen(3000, ()=>{
 	console.log("Movie App has started!!");
