@@ -9,7 +9,7 @@
 			</strong>
 			 - <%= movie["Year"] %>
 			 <span><img src="<%= movie['Poster'] %>" style="width:30px" ></span>
-			 <span>ImdbID - <%= movie["imdbID"] %> </span>
+			 <span><a href="/search/<%= movie['imdbID']%>">ImdbID - <%= movie["imdbID"] %></a></span>
 			 <span>Type - <%= movie.Type %></span>
 		</li>
     <% }) %>
@@ -18,7 +18,6 @@
 <h3><%= data.totalResults %></h3>
 <h3><%= data.Response %></h3>
 <% }else if(title){ %>
-
 	<ul>
 		<% for(let key in data){ %>
 			<li><% if(key == "Ratings"){ %><strong><%= key %></strong>

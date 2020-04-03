@@ -42,6 +42,25 @@ app.get("/search", (req, res)=>{
 	});
 });
 
+app.get("/search/:imdbID", (req, res)=>{
+		let url = "http://www.omdbapi.com/?i=" + req.params.imdbID + "&apikey=" + process.env.OMDB_API_KEY;
+		console.log(url);
+		request(url, (error, response, body)=>{
+			if(!error && response.statusCode == 200){
+				let data = JSON.parse(body);
+				console.log(response.statusCode);
+				console.log(data);
+				if(data.Response == "True"){
+					res.render("show", {data: data});
+				}else{
+					res.send(data);
+				}
+			}else{
+				res.send("Error Occured! Please Try again");
+			}
+		});
+});
+
 app.listen(3000, ()=>{
 	console.log("Movie App has started!!");
 	console.log("Server is listening at 'localhost:3000'");
