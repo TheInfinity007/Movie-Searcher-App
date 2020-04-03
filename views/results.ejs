@@ -1,4 +1,6 @@
 <h1>Search Result Page</h1>
+
+<% if(!title){ %>
 <ul>
 	<% data["Search"].forEach((movie)=>{ %>
 		<li>
@@ -15,4 +17,27 @@
 
 <h3><%= data.totalResults %></h3>
 <h3><%= data.Response %></h3>
+<% }else if(title){ %>
+
+	<ul>
+		<% for(let key in data){ %>
+			<li><% if(key == "Ratings"){ %><strong><%= key %></strong>
+				<ul>
+					<% data[key].forEach((rating)=>{ %>
+						<li>
+						<% for(let x in rating){ %>
+								<strong><%= x %></strong> - <%= rating[x] %>	
+						<%} %>		
+						</li>				
+					<%}) %>
+				</ul>
+			<% }else{ %>
+				<strong><%= key %></strong> - <%= data[key] %>
+			<% } %>
+			</li>
+		<% } %>
+	</ul>
+<% } %>
+ 
+
 <a href="/">Search Again!!</a>

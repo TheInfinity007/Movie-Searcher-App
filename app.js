@@ -13,9 +13,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get("/", (req, res)=>{
-	console.log(process.env.OMDB_API_KEY);
 	res.render("search");
-
 });
 
 app.get("/search", (req, res)=>{
@@ -29,11 +27,12 @@ app.get("/search", (req, res)=>{
 			var data = JSON.parse(body);
 			console.log(response.statusCode);
 			console.log(data);
-			if(query.t){
-				res.send(data);
+			let title=false;
+			if(query.t || query.i){
+				res.render("results", {data : data, title: true});
 			}
 			else if(data.Response == "True"){
-				res.render("results", {data : data});
+				res.render("results", {data : data, title: title});
 			}else{
 				res.send(data);
 			}

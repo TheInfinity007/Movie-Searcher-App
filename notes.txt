@@ -1,0 +1,7 @@
+				<!-- <% key.forEach((rating)=>{ %>
+						<% for(let x in rating){ %>
+							<li>
+								<strong><%= x[Source] %></strong> - <%= x[Value] %>		
+							</li>
+						<%} %>	
+					<%}) %> -->

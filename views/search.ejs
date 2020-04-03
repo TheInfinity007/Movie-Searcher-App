@@ -5,9 +5,28 @@
 		<title>Movie Search</title>
 	</head>
 	<body>
-		<h1>Search for a movie</h1>
+		<h1>Search For A Movie</h1>
 		<form action="/search" method="GET">
-			<input type="text" placeholder="search By Term" name="s">
+			<label>Search By Term</label><br>
+			<input type="text" placeholder="Search By Term" name="s">
+			<input type="year" name="y" placeholder="Year">
+			<input type="text" name="plot" placeholder="plot" value="short">
+			<input type="submit" name="">
+		</form>
+		<br>
+		<form action="/search" method="GET">
+			<label>Search By Term</label><br>
+			<input type="text" placeholder="Search By Title" name="t">
+			<input type="year" name="y" placeholder="Year">
+			<input type="text" name="plot" placeholder="plot" value="short">
+			<input type="submit" name="">
+		</form>
+		<br>
+		<form action="/search" method="GET">
+			<label>Search By Term</label><br>
+			<input type="text" placeholder="Search By Id" name="i">
+			<input type="year" name="y" placeholder="Year">
+			<input type="text" name="plot" placeholder="plot" value="short">
 			<input type="submit" name="">
 		</form>
 	</body>
