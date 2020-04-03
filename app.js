@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const 	express 	= require("express"),
 		ejs				= require("ejs"),
 		bodyParser	= require("body-parser"),
@@ -11,22 +13,32 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get("/", (req, res)=>{
+	console.log(process.env.OMDB_API_KEY);
 	res.render("search");
+
 });
 
-app.get("/results", (req, res)=>{
+app.get("/search", (req, res)=>{
 	let query = req.query;
-	let url = "http://www.omdbapi.com/?s=" + query.search + "&apikey=thewdb";
+	console.log(req._parsedUrl.query);
+	console.log(query);
+	let url = "http://www.omdbapi.com/?" + req._parsedUrl.query + "&apikey=" + process.env.OMDB_API_KEY;
+	console.log(url);
 	request(url, (error, response, body)=>{
 		if(!error && response.statusCode == 200){
 			var data = JSON.parse(body);
 			console.log(response.statusCode);
 			console.log(data);
-			if(data.Response == "True"){
+			if(query.t){
+				res.send(data);
+			}
+			else if(data.Response == "True"){
 				res.render("results", {data : data});
 			}else{
 				res.send(data);
 			}
+		}else{
+			res.send("Error Occured! Please Try again");
 		}
 	});
 })
