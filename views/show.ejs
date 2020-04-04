@@ -1,9 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Show Page</title>
-</head>
-<body>
+<%- include('partials/header') %>
+
 	<ul>
 		<% for(let key in data){ %>
 			<li><% if(key == "Ratings"){ %><strong><%= key %></strong>
@@ -22,5 +18,5 @@
 			</li>
 		<% } %>
 	</ul>
-</body>
-</html>
+
+<%- include('partials/footer') %>
