@@ -1,9 +1,14 @@
+*
+{
+	margin:0;
+	padding:0;
+}
 body
 {
 	background: #333;
 	color: #fff;
 	height:100vh;
-	overflow:scroll;
+	/*max-width:100vw;*/
 	font-family: "Times New Roman";
 }
 .title h1
@@ -36,6 +41,10 @@ body
 {
 	width:70px;
 }
+.ratings .caption
+{
+	font-size:1.25rem;
+}
 .ratings .table tr td
 {
 	font-size:1.25rem;
@@ -45,4 +54,13 @@ body
 {
 	font-size: 1.5rem;
 	padding-top:0;
+}
+
+h4.title
+{
+	display: inline;
+}
+.year h5
+{
+	display: inline;	
 }

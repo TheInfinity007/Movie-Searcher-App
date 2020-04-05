@@ -1,4 +1,31 @@
-<h1>Search Result Page</h1>
+<%- include('partials/header') %>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12 p-n5">
+			<h1>Search Result Page</h1>
+		</div>	
+	</div>	
+</div>
+<div class="container">
+	<div class="row">
+		<% data["Search"].forEach((movie)=>{ %>
+			<div class="col-md-6 col-lg-3">
+				<div class="card">
+					<img class="card-img-top" src="<%if(movie['Poster'] == 'N/A'){%><%= movie['Poster'] %><%}else{%><%= movie['Poster'] %><%}%>" alt="<%= movie['Title'] %>.jpg">
+					<div class="card-body text-dark">
+						<h4 class="title"><%= movie['Title'] %> <span class="year"><h5>(<%= movie['Year'] %>)</h5></span></h4>
+						<p>
+							<a href="" class = "btn btn-primary"> More Info</a>
+						</p>
+					</div>
+				</div>
+			</div>
+		<% }) %>
+		
+
+	</div>
+</div>
+
 
 <% if(!title){ %>
 <ul>
@@ -37,6 +64,8 @@
 		<% } %>
 	</ul>
 <% } %>
+ 
+
  
 
 <a href="/">Search Again!!</a>

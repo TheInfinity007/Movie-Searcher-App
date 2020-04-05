@@ -24,24 +24,26 @@ app.get("/search", (req, res)=>{
 	console.log(query);
 	let url = "http://www.omdbapi.com/?" + req._parsedUrl.query + "&plot=full&apikey=" + process.env.OMDB_API_KEY;
 	console.log(url);
-	request(url, (error, response, body)=>{
-		if(!error && response.statusCode == 200){
-			var data = JSON.parse(body);
-			console.log(response.statusCode);
-			console.log(data);
-			let title=false;
-			if(query.t || query.i){
-				res.render("show", {data : data});
-			}
-			else if(data.Response == "True"){
-				res.render("results", {data : data, title: title});
-			}else{
-				res.send(data);
-			}
-		}else{
-			res.send("Error Occured! Please Try again");
-		}
-	});
+	// request(url, (error, response, body)=>{
+	// 	if(!error && response.statusCode == 200){
+	// 		var data = JSON.parse(body);
+	// 		console.log(response.statusCode);
+	// 		console.log(data);
+	// 		let title=false;
+	// 		if(query.t || query.i){
+	// 			res.render("show", {data : data});
+	// 		}
+	// 		else if(data.Response == "True"){
+	// 			console.log(data);
+	// 			res.render("results", {data : data, title: title});
+	// 		}else{
+	// 			res.send(data);
+	// 		}
+	// 	}else{
+	// 		res.send("Error Occured! Please Try again");
+	// 	}
+	// });
+	res.render("results", { data: seedData2, title: false });
 });
 
 var seedData = {
@@ -103,3 +105,81 @@ app.listen(3000, ()=>{
 	console.log("Movie App has started!!");
 	console.log("Server is listening at 'localhost:3000'");
 });
+
+
+var seedData2 = {
+	Search: [
+	    {
+	      Title: 'Jumanji: Welcome to the Jungle',
+	      Year: '2017',
+	      imdbID: 'tt2283362',
+	      Type: 'movie',
+	      Poster: 'https://m.media-amazon.com/images/M/MV5BODQ0NDhjYWItYTMxZi00NTk2LWIzNDEtOWZiYWYxZjc2MTgxXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg'
+	    },
+	    {
+	      Title: 'Jumanji',
+	      Year: '1995',
+	      imdbID: 'tt0113497',
+	      Type: 'movie',
+	      Poster: 'https://m.media-amazon.com/images/M/MV5BZTk2ZmUwYmEtNTcwZS00YmMyLWFkYjMtNTRmZDA3YWExMjc2XkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg'
+	    },
+	    {
+	      Title: 'Jumanji: The Next Level',
+	      Year: '2019',
+	      imdbID: 'tt7975244',
+	      Type: 'movie',
+	      Poster: 'https://m.media-amazon.com/images/M/MV5BOTVjMmFiMDUtOWQ4My00YzhmLWE3MzEtODM1NDFjMWEwZTRkXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_SX300.jpg'
+	    },
+	    {
+	      Title: 'Jumanji',
+	      Year: '1996–1999',
+	      imdbID: 'tt0115228',
+	      Type: 'series',
+	      Poster: 'https://m.media-amazon.com/images/M/MV5BMTIwMzQyOTI0Nl5BMl5BanBnXkFtZTcwNzQ0OTIyMQ@@._V1_SX300.jpg'
+	    },
+	    {
+	      Title: "Lions and Monkeys and Pods... Oh My!: The Special Effects of 'Jumanji'",
+	      Year: '1999',
+	      imdbID: 'tt0311446',
+	      Type: 'movie',
+	      Poster: 'N/A'
+	    },
+	    {
+	      Title: 'IMDb LIVE at the Jumanji: The Next Level Premiere',
+	      Year: '2019–',
+	      imdbID: 'tt11341910',
+	      Type: 'series',
+	      Poster: 'https://m.media-amazon.com/images/M/MV5BMzMzMmQzNGItMjZjMy00NjkwLWI0NzMtODcwZWJiODY0NTI5XkEyXkFqcGdeQXVyNzU1ODY5NTg@._V1_SX300.jpg'
+	    },
+	    {
+	      Title: 'Jumanji',
+	      Year: '1997',
+	      imdbID: 'tt5586628',
+	      Type: 'game',
+	      Poster: 'N/A'
+	    },
+	    {
+	      Title: 'Making Jumanji: The Realm of Imagination',
+	      Year: '2000',
+	      imdbID: 'tt5299620',
+	      Type: 'movie',
+	      Poster: 'N/A'
+	    },
+	    {
+	      Title: "The Cast of Goosebumps Reflects on 'Jumanji'",
+	      Year: '2015',
+	      imdbID: 'tt5299728',
+	      Type: 'movie',
+	      Poster: 'N/A'
+	    },
+	    {
+	      Title: 'Like Jumanji',
+	      Year: '2009',
+	      imdbID: 'tt1563146',
+	      Type: 'movie',
+	      Poster: 'N/A'
+	    }
+	 ],
+	 totalResults: '10',
+	 Response: 'True'
+}

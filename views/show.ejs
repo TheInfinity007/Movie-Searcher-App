@@ -1,9 +1,9 @@
 <%- include('partials/header') %>
 
 <div class="container-fluid">
-	<div class="row p-5">
+	<div class="row p-2 p-md-5">
 		<div class="col-md-4 text-center">
-			<img class="img-thumbnail mt-md-5" src="<%= data['Poster']%>"></img>
+			<img class="img-thumbnail mt-md-5 mb-md-0 mb-2" src="<%= data['Poster']%>"></img>
 		</div>
 		<div class="col-md-8">
 			<div class="title mt-md-5 mb-3"><h1 class="d-inline"><%= data['Title'] %></h1><span class="year"><h2 class="d-inline"> (<%= data['Year'] %>)</h2></span></div>
@@ -23,6 +23,9 @@
 				<div class="col-md-5 ratings mt-4">
 					<div class="table-responsive">
 						<table class="table table-sm table-borderless">
+							<thead class="text-center" style="font-size: 1.25rem">
+								<th colspan="2">Ratings</th>
+							</thead>
 							<tbody>
 								<% data["Ratings"].forEach((rating)=>{ %>
 									<% if(rating['Source'] == 'Internet Movie Database'){ %>
@@ -82,7 +85,7 @@
 						<% for(let x in rating){ %>
 								<strong><%= x %></strong> - <%= rating[x] %>	
 						<%} %>		
-						</li>				
+						</li>	
 					<%}) %>
 				</ul>
 			<% }%>
