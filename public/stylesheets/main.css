@@ -55,7 +55,6 @@ body
 	font-size: 1.5rem;
 	padding-top:0;
 }
-
 h4.title
 {
 	display: inline;
@@ -63,4 +62,43 @@ h4.title
 .year h5
 {
 	display: inline;	
+}
+.card
+{
+	margin-bottom:1rem;
+}
+@media(min-width: 768px){
+	.card
+	{
+		min-height: 300px;
+	}
+	.card-img-top
+	{
+		max-height:300px;
+	}
+}
+.heading
+{
+	background :#555555;
+	text-align: center;
+	padding:1.5rem;
+	margin-bottom:2rem;
+}
+.heading h1
+{
+	display: inline;
+}
+a.search-again
+{
+	background: #fff;
+	color:#007bff;
+	font-size: 2rem;
+	padding:1rem;
+	border-radius:50px;
+	margin:0 auto;
+}
+a.search-again:hover
+{
+	color:#fff;
+	background:#007bff;
 }

@@ -24,26 +24,25 @@ app.get("/search", (req, res)=>{
 	console.log(query);
 	let url = "http://www.omdbapi.com/?" + req._parsedUrl.query + "&plot=full&apikey=" + process.env.OMDB_API_KEY;
 	console.log(url);
-	// request(url, (error, response, body)=>{
-	// 	if(!error && response.statusCode == 200){
-	// 		var data = JSON.parse(body);
-	// 		console.log(response.statusCode);
-	// 		console.log(data);
-	// 		let title=false;
-	// 		if(query.t || query.i){
-	// 			res.render("show", {data : data});
-	// 		}
-	// 		else if(data.Response == "True"){
-	// 			console.log(data);
-	// 			res.render("results", {data : data, title: title});
-	// 		}else{
-	// 			res.send(data);
-	// 		}
-	// 	}else{
-	// 		res.send("Error Occured! Please Try again");
-	// 	}
-	// });
-	res.render("results", { data: seedData2, title: false });
+	request(url, (error, response, body)=>{
+		if(!error && response.statusCode == 200){
+			var data = JSON.parse(body);
+			console.log(response.statusCode);
+			console.log(data);
+			if(query.t || query.i){
+				res.render("show", {data : data});
+			}
+			else if(data.Response == "True"){
+				console.log(data);
+				res.render("results", {data : data });
+			}else{
+				res.send(data);
+			}
+		}else{
+			res.send("Error Occured! Please Try again");
+		}
+	});
+	// res.render("results", { data: seedData2, title: false });
 });
 
 var seedData = {
