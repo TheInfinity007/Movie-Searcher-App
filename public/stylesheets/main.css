@@ -83,6 +83,7 @@ h4.title
 	text-align: center;
 	padding:1.5rem;
 	margin-bottom:2rem;
+	border-radius: 10px;
 }
 .heading h1
 {
@@ -101,4 +102,13 @@ a.search-again:hover
 {
 	color:#fff;
 	background:#007bff;
+}
+.well
+{
+	width:100%;
+	text-align: center;
+	background:#555;
+	padding:0.5rem;
+	margin-bottom: 1rem;
+	border-radius: 20px;	
 }

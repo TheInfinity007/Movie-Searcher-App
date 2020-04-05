@@ -31,8 +31,7 @@ app.get("/search", (req, res)=>{
 			console.log(data);
 			if(query.t || query.i){
 				res.render("show", {data : data});
-			}
-			else if(data.Response == "True"){
+			}else if(data.Response == "True"){
 				console.log(data);
 				res.render("results", {data : data });
 			}else{
