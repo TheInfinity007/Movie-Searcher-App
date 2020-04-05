@@ -1,1 +1,48 @@
-main
+body
+{
+	background: #333;
+	color: #fff;
+	height:100vh;
+	overflow:scroll;
+	font-family: "Times New Roman";
+}
+.title h1
+{
+	font-size:3rem;
+}
+.year h2
+{
+	font-size:2.3rem;
+	color:#c0c0c0;
+}
+.details
+{
+	color: #c0c0c0;
+}
+.plot
+{
+	text-align: left;
+	font-size: 1.5rem;
+}
+.plot p
+{
+	line-height:1.3;
+}
+.table
+{
+	color:#fff;
+}
+.table img
+{
+	width:70px;
+}
+.ratings .table tr td
+{
+	font-size:1.25rem;
+	vertical-align: middle;
+}
+.stars .table tr td
+{
+	font-size: 1.5rem;
+	padding-top:0;
+}

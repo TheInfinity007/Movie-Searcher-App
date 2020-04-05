@@ -9,6 +9,7 @@ const 	express 	= require("express"),
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
+app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -21,7 +22,7 @@ app.get("/search", (req, res)=>{
 	let query = req.query;
 	console.log(req._parsedUrl.query);
 	console.log(query);
-	let url = "http://www.omdbapi.com/?" + req._parsedUrl.query + "&apikey=" + process.env.OMDB_API_KEY;
+	let url = "http://www.omdbapi.com/?" + req._parsedUrl.query + "&plot=full&apikey=" + process.env.OMDB_API_KEY;
 	console.log(url);
 	request(url, (error, response, body)=>{
 		if(!error && response.statusCode == 200){
@@ -30,7 +31,7 @@ app.get("/search", (req, res)=>{
 			console.log(data);
 			let title=false;
 			if(query.t || query.i){
-				res.render("results", {data : data, title: true});
+				res.render("show", {data : data});
 			}
 			else if(data.Response == "True"){
 				res.render("results", {data : data, title: title});
@@ -53,7 +54,7 @@ var seedData = {
   Director: 'Jake Kasdan',
   Writer: 'Chris McKenna (screenplay by), Erik Sommers (screenplay by), Scott Rosenberg (screenplay by), Jeff Pinkner (screenplay by), Chris McKenna (screen story by), Chris Van Allsburg (based on the book "Jumanji" by), Greg Taylor (based on the film "Jumanji" screen story by), Chris Van Allsburg (based on the film "Jumanji" screen story by), Jonathan Hensleigh (based on the film "Jumanji" screenplay by), Greg Taylor (based on the film "Jumanji" screenplay by), Jim Strain (based on the film "Jumanji" by)',
   Actors: 'Dwayne Johnson, Kevin Hart, Jack Black, Karen Gillan',
-  Plot: 'Four teenagers are sucked into a magical video game, and the only way they can escape is to work together to finish the game.',
+  Plot: "In a brand new Jumanji adventure, four high school kids discover an old video game console and are drawn into the game's jungle setting, literally becoming the adult avatars they chose. What they discover is that you don't just play Jumanji - you must survive it. To beat the game and return to the real world, they'll have to go on the most dangerous adventure of their lives, discover what Alan Parrish left 20 years ago, and change the way they think about themselves - or they'll be stuck in the game forever, to be played by others without break.",
   Language: 'English',
   Country: 'USA, India, Canada, UK, Australia, Germany',
   Awards: '5 wins & 14 nominations.',
@@ -77,23 +78,25 @@ var seedData = {
 
 //show route
 app.get("/search/:imdbID", (req, res)=>{
-		let url = "http://www.omdbapi.com/?i=" + req.params.imdbID + "&apikey=" + process.env.OMDB_API_KEY;
+	console.log("IMDB route");
+		let url = "http://www.omdbapi.com/?i=" + req.params.imdbID + "&plot=full&apikey=" + process.env.OMDB_API_KEY;
 		console.log(url);
-		// request(url, (error, response, body)=>{
-		// 	if(!error && response.statusCode == 200){
-		// 		let data = JSON.parse(body);
-		// 		console.log(response.statusCode);
-		// 		console.log(data);
-		// 		if(data.Response == "True"){
-		// 			res.render("show", {data: data});
-		// 		}else{
-		// 			res.send(data);
-		// 		}
-		// 	}else{
-		// 		res.send("Error Occured! Please Try again");
-		// 	}
-		// });
-		res.render("show", {data: seedData});
+		request(url, (error, response, body)=>{
+			if(!error && response.statusCode == 200){
+				let data = JSON.parse(body);
+				console.log(response.statusCode);
+				console.log(data);
+				if(data.Response == "True"){
+					res.render("show", {data: data});
+					res.render("show", {data: seedData});
+				}else{
+					res.send(data);
+				}
+			}else{
+				res.send("Error Occured! Please Try again");
+			}
+		});
+		// res.render("show", {data: seedData});
 });
 
 app.listen(3000, ()=>{

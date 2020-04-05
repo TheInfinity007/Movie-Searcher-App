@@ -1,8 +1,81 @@
 <%- include('partials/header') %>
 
+<div class="container-fluid">
+	<div class="row p-5">
+		<div class="col-md-4 text-center">
+			<img class="img-thumbnail mt-md-5" src="<%= data['Poster']%>"></img>
+		</div>
+		<div class="col-md-8">
+			<div class="title mt-md-5 mb-3"><h1 class="d-inline"><%= data['Title'] %></h1><span class="year"><h2 class="d-inline"> (<%= data['Year'] %>)</h2></span></div>
+			
+			<div class="details text-left w-100">
+				<span class="rated px-2"><%= data['Rated'] %></span> | 
+				<span class="runtime px-2"><%= data['Runtime'] %></span> |
+				<span class="genre px-2"><%= data["Genre"] %></span> | 
+				<span class="released px-2"><%= data['Released'] %></span>
+			</div>
+
+			<div class="plot my-1">
+				<p><%= data['Plot'] %></p>
+			</div>
+
+			<div class="row mt-4">
+				<div class="col-md-5 ratings mt-4">
+					<div class="table-responsive">
+						<table class="table table-sm table-borderless">
+							<tbody>
+								<% data["Ratings"].forEach((rating)=>{ %>
+									<% if(rating['Source'] == 'Internet Movie Database'){ %>
+										<tr>
+											<td class="text-center"><a href="https://www.imdb.com/title/<%= data['imdbID'] %>" target="_blank"><img src="/images/imdb.svg" class="img-responsive"></a></td>
+											<td><%= rating['Value'] %></td>
+										</tr>
+									<% }else if(rating['Source'] == 'Rotten Tomatoes'){ %>
+										<tr>
+											<td class="text-center"><img src="/images/tomatoes.jpg" class="img-responsive"></td>
+											<td><%= rating['Value'] %></td>
+										</tr>
+									<% }else if(rating['Source'] == 'Metacritic'){ %>
+										<tr>
+											<td class="text-center"><img src="/images/metacritic.svg" class="img-responsive"></td>
+											<td><%= rating['Value'] %></td>
+										</tr>
+									<% } %>
+								<% }); %>
+							</tbody>
+						</table>
+					</div>	
+				</div>
+
+				<div class="col-md-7 stars">
+					<div class="table-responsive mt-4">
+						<table class="table table-borderless table-sm">
+							<tbody>
+								<tr>
+									<td>Director: </td>
+									<td class="text-left"><%= data['Director'] %></td>
+								</tr>
+								<tr>
+									<td>Cast: </td>
+									<td class="text-left"><%= data['Actors'] %></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+</div>
+
+
+
+
 	<ul>
 		<% for(let key in data){ %>
-			<li><% if(key == "Ratings"){ %><strong><%= key %></strong>
+			<li>
+				<% if(key == "Ratings"){ %><strong><%= key %></strong>
 				<ul>
 					<% data[key].forEach((rating)=>{ %>
 						<li>
@@ -12,10 +85,13 @@
 						</li>				
 					<%}) %>
 				</ul>
+			<% }%>
+			<% if(key == "Poster"){%>
+				<li>Poster</li>
 			<% }else{ %>
 				<strong><%= key %></strong> - <%= data[key] %>
 			<% } %>
-			</li>
+		</li>
 		<% } %>
 	</ul>
 
