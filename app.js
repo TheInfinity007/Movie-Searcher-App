@@ -42,34 +42,34 @@ app.get("/search", (req, res)=>{
 		url = "http://www.omdbapi.com/?" + search + "&page=" + pageNo + "&apikey=" + process.env.OMDB_API_KEY;
 	}
 	console.log(url);
-	// request(url, (error, response, body)=>{
-	// 	if(!error && response.statusCode == 200){
-	// 		var data = JSON.parse(body);
-	// 		console.log(response.statusCode);
-	// 		if(query.t || query.i){
-	// 			res.render("show", {data : data});
-	// 		}else if(data.Response == "True"){
-	// 			res.render("results", {
-	// 				data : data,
-	// 				search : search,
-	// 				current: pageNo,
-	// 				pages: Math.ceil(data['totalResults']/10)
-	// 			});
-	// 		}else{
-	// 			res.send(data);
-	// 		}
-	// 	}else{
-	// 		console.log(error);
-	// 		res.send("Error Occured! Please Try again");
-	// 	}
-	// });
+	request(url, (error, response, body)=>{
+		if(!error && response.statusCode == 200){
+			var data = JSON.parse(body);
+			console.log(response.statusCode);
+			if(query.t || query.i){
+				res.render("show", {data : data});
+			}else if(data.Response == "True"){
+				res.render("results", {
+					data : data,
+					search : search,
+					current: pageNo,
+					pages: Math.ceil(data['totalResults']/10)
+				});
+			}else{
+				res.send(data);
+			}
+		}else{
+			console.log(error);
+			res.send("Error Occured! Please Try again");
+		}
+	});
 	// res.render("results", {
 	// 	data : seedData2,
 	// 	search : search,
 	// 	current: pageNo,
 	// 	pages: Math.ceil(seedData2['totalResults']/10)
 	// });
-	res.render("show", {data : seedData });
+	// res.render("show", {data : seedData });
 });
 
 

@@ -1,6 +1,6 @@
 <%- include('partials/header') %>
 
-<div class="container-fluid">
+<div class="container-fluid pb-5">
 	<div class="row p-2 p-md-5">
 		<div class="col-md-4 text-center">
 			<img class="img-thumbnail mt-md-5 mb-md-0 mb-2" src="<%= data['Poster']%>"></img>
@@ -78,29 +78,4 @@
 </div>
 
 
-
-<!-- 
-	<ul>
-		<% for(let key in data){ %>
-			<li>
-				<% if(key == "Ratings"){ %><strong><%= key %></strong>
-				<ul>
-					<% data[key].forEach((rating)=>{ %>
-						<li>
-						<% for(let x in rating){ %>
-								<strong><%= x %></strong> - <%= rating[x] %>	
-						<%} %>		
-						</li>	
-					<%}) %>
-				</ul>
-			<% }%>
-			<% if(key == "Poster"){%>
-				<li>Poster</li>
-			<% }else{ %>
-				<strong><%= key %></strong> - <%= data[key] %>
-			<% } %>
-		</li>
-		<% } %>
-	</ul>
- -->
 <%- include('partials/footer') %>
