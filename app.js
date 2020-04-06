@@ -1,4 +1,5 @@
 require("dotenv").config();
+var PORT = process.env.PORT || 3000;
 
 const 	express 	= require("express"),
 		ejs				= require("ejs"),
@@ -96,7 +97,7 @@ app.get("/search/:imdbID", (req, res)=>{
 		// res.render("show", {data: seedData});
 });
 
-app.listen(3000, ()=>{
+app.listen(PORT, ()=>{
 	console.log("Movie App has started!!");
 	console.log("Server is listening at 'localhost:3000'");
 });
