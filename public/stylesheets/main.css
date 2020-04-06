@@ -112,3 +112,13 @@ a.search-again:hover
 	margin-bottom: 1rem;
 	border-radius: 20px;	
 }
+a.page-link
+{
+	background: #555;
+	color:#fff;
+}
+li.disabled a.page-link
+{
+	background:#666 !important;
+	color:rgba(255,255,255,0.8) !important;
+}

@@ -38,25 +38,38 @@ app.get("/search", (req, res)=>{
 	if(searchQueryType === "i" || searchQueryType === "t"){
 		url = "http://www.omdbapi.com/?" + req._parsedUrl.query + "&plot=full&apikey=" + process.env.OMDB_API_KEY;
 	}else{
-		url = "http://www.omdbapi.com/?" + searchQueryType + "=" + searchQuery + "&y=" + yearQuery + "&page=" + pageNo + "&apikey=" + process.env.OMDB_API_KEY;
+		var search = searchQueryType + "=" + searchQuery + "&y=" + yearQuery;
+		url = "http://www.omdbapi.com/?" + search + "&page=" + pageNo + "&apikey=" + process.env.OMDB_API_KEY;
 	}
 	console.log(url);
-	request(url, (error, response, body)=>{
-		if(!error && response.statusCode == 200){
-			var data = JSON.parse(body);
-			console.log(response.statusCode);
-			// console.log(data);
-			if(query.t || query.i){
-				res.render("show", {data : data});
-			}else if(data.Response == "True"){
-				// console.log(data);
-				res.render("results", {data : data });
-			}else{
-				res.send(data);
-			}
-		}else{
-			res.send("Error Occured! Please Try again");
-		}
+	// request(url, (error, response, body)=>{
+	// 	if(!error && response.statusCode == 200){
+	// 		var data = JSON.parse(body);
+	// 		console.log(response.statusCode);
+	// 		// console.log(data);
+	// 		if(query.t || query.i){
+	// 			res.render("show", {data : data});
+	// 		}else if(data.Response == "True"){
+	// 			// console.log(data);
+	// 			res.render("results", {
+	// 				data : data,
+	// 				search : search,
+	// 				current: pageNo,
+	// 				pages: Math.ceil(data['totalResults']/10)
+	// 			});
+	// 		}else{
+	// 			res.send(data);
+	// 		}
+	// 	}else{
+	// 		console.log(error);
+	// 		res.send("Error Occured! Please Try again");
+	// 	}
+	// });
+	res.render("results", {
+		data : seedData2,
+		search : search,
+		current: pageNo,
+		pages: Math.ceil(seedData2['totalResults']/10)
 	});
 	// res.render("results", { data: seedData2, title: false });
 	// res.render("show", {data : seedData });
@@ -200,6 +213,6 @@ var seedData2 = {
 	      Poster: 'N/A'
 	    }
 	 ],
-	 totalResults: '10',
+	 totalResults: '200',
 	 Response: 'True'
 }
