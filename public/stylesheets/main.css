@@ -112,6 +112,11 @@ a.search-again:hover
 	margin-bottom: 1rem;
 	border-radius: 20px;	
 }
+.pagination
+{
+	margin:20px 0;
+	justify-content: center;
+}
 a.page-link
 {
 	background: #555;
