@@ -1,41 +1,60 @@
 <%- include('partials/header') %>
-		<h1>Search For A Movie</h1>
-		<form action="/search" method="GET">
-			<label>Search By Term</label><br>
-			<input type="text" placeholder="Search By Term" name="s">
-			<input type="year" name="y" placeholder="Year">
-			<!-- <label>Plot</label>
-			<select name="plot">
-				<option value="short">Short</option>
-				<option value="full">Full</option>
-			</select> -->
-			<input type="submit" name="">
-		</form>
-		<br>
+<div class="container">
+	<div class="row justify-content-center">
+		<div class="col-md-6">
+			<div class="heading mt-5">
+				<h1>Search For A Movie</h1>
+			</div>
+			<div class="card form">
+				<div class="card-body">
+					<form action="/search" method="GET">
+						<label>Search By Term</label><br>
+						<input type="text" placeholder="Search By Term" name="s">
+						<input type="year" name="y" placeholder="Year">
+						<!-- <label>Plot</label>
+						<select name="plot">
+							<option value="short">Short</option>
+							<option value="full">Full</option>
+						</select> -->
+						<input type="submit" name="">
+					</form>
+				</div>
+			</div>
+			<br>
+			<div class="card form">
+				<div class="card-body">
+					<form action="/search" method="GET">
+						<label>Search By Title</label><br>
+						<input type="text" placeholder="Search By Title" name="t">
+						<input type="year" name="y" placeholder="Year">
+					<!-- 	<label>Plot</label>
+						<select name="plot">
+							<option value="short">Short</option>
+							<option value="full">Full</option>
+						</select> -->
+						<input type="submit" name="">
+					</form>
+				</div>
+			</div>
+			<br>
 
-		<form action="/search" method="GET">
-			<label>Search By Title</label><br>
-			<input type="text" placeholder="Search By Title" name="t">
-			<input type="year" name="y" placeholder="Year">
-		<!-- 	<label>Plot</label>
-			<select name="plot">
-				<option value="short">Short</option>
-				<option value="full">Full</option>
-			</select> -->
-			<input type="submit" name="">
-		</form>
-		<br>
+			<div class="card form">
+				<div class="card-body">
+					<form action="/search" method="GET">
+						<label>Search By Id</label><br>
+						<input type="text" placeholder="Search By Id" name="i">
+						<!-- <input type="year" name="y" placeholder="Year"><br> -->
+						<!-- <label>Plot</label>
+						<select name="plot">
+							<option value="short">Short</option>
+							<option value="full">Full</option>
+						</select> -->
+						<input type="submit" name="">
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 
-		<form action="/search" method="GET">
-			<label>Search By Id</label><br>
-			<input type="text" placeholder="Search By Id" name="i">
-			<!-- <input type="year" name="y" placeholder="Year"><br> -->
-			<!-- <label>Plot</label>
-			<select name="plot">
-				<option value="short">Short</option>
-				<option value="full">Full</option>
-			</select> -->
-			<input type="submit" name="">
-		</form>
-	</body>
-	</html>
+<%- include('partials/footer') %>
