@@ -20,19 +20,36 @@ app.get("/", (req, res)=>{
 //index route
 app.get("/search", (req, res)=>{
 	let query = req.query;
-	console.log(req._parsedUrl.query);
+
+	var pageQuery = parseInt(req.query.page);
+	var searchQuery = req.query.t || req.query.i || req.query.s;
+	var searchQueryType = req.query.t?"t" :  (req.query.i ?"i" : "s");
+	let yearQuery = req.query.y;
+	console.log("Search Query = " + searchQuery);
+	console.log("Search Query Type = " + searchQueryType);
+	console.log("Year Query = '" + yearQuery + "'");
+
+	var pageNo = pageQuery ? pageQuery : 1;
+	console.log("PageNo = " + pageNo);
+
+	console.log("Parsed Url = " + req._parsedUrl.query);
 	console.log(query);
-	let url = "http://www.omdbapi.com/?" + req._parsedUrl.query + "&plot=full&apikey=" + process.env.OMDB_API_KEY;
+	let url;
+	if(searchQueryType === "i" || searchQueryType === "t"){
+		url = "http://www.omdbapi.com/?" + req._parsedUrl.query + "&plot=full&apikey=" + process.env.OMDB_API_KEY;
+	}else{
+		url = "http://www.omdbapi.com/?" + searchQueryType + "=" + searchQuery + "&y=" + yearQuery + "&page=" + pageNo + "&apikey=" + process.env.OMDB_API_KEY;
+	}
 	console.log(url);
 	request(url, (error, response, body)=>{
 		if(!error && response.statusCode == 200){
 			var data = JSON.parse(body);
 			console.log(response.statusCode);
-			console.log(data);
+			// console.log(data);
 			if(query.t || query.i){
 				res.render("show", {data : data});
 			}else if(data.Response == "True"){
-				console.log(data);
+				// console.log(data);
 				res.render("results", {data : data });
 			}else{
 				res.send(data);
@@ -42,7 +59,42 @@ app.get("/search", (req, res)=>{
 		}
 	});
 	// res.render("results", { data: seedData2, title: false });
+	// res.render("show", {data : seedData });
 });
+
+app.get("/search/page", (req, res)=>{
+
+});
+
+
+//show route
+app.get("/search/:imdbID", (req, res)=>{
+	console.log("IMDB route");
+		let url = "http://www.omdbapi.com/?i=" + req.params.imdbID + "&plot=full&apikey=" + process.env.OMDB_API_KEY;
+		console.log(url);
+		request(url, (error, response, body)=>{
+			if(!error && response.statusCode == 200){
+				let data = JSON.parse(body);
+				console.log(response.statusCode);
+				// console.log(data);
+				if(data.Response == "True"){
+					res.render("show", {data: data});
+					res.render("show", {data: seedData});
+				}else{
+					res.send(data);
+				}
+			}else{
+				res.send("Error Occured! Please Try again");
+			}
+		});
+		// res.render("show", {data: seedData});
+});
+
+app.listen(3000, ()=>{
+	console.log("Movie App has started!!");
+	console.log("Server is listening at 'localhost:3000'");
+});
+
 
 var seedData = {
   Title: 'Jumanji: Welcome to the Jungle',
@@ -75,36 +127,6 @@ var seedData = {
   Website: 'N/A',
   Response: 'True'
 };
-
-//show route
-app.get("/search/:imdbID", (req, res)=>{
-	console.log("IMDB route");
-		let url = "http://www.omdbapi.com/?i=" + req.params.imdbID + "&plot=full&apikey=" + process.env.OMDB_API_KEY;
-		console.log(url);
-		request(url, (error, response, body)=>{
-			if(!error && response.statusCode == 200){
-				let data = JSON.parse(body);
-				console.log(response.statusCode);
-				console.log(data);
-				if(data.Response == "True"){
-					res.render("show", {data: data});
-					res.render("show", {data: seedData});
-				}else{
-					res.send(data);
-				}
-			}else{
-				res.send("Error Occured! Please Try again");
-			}
-		});
-		// res.render("show", {data: seedData});
-});
-
-app.listen(3000, ()=>{
-	console.log("Movie App has started!!");
-	console.log("Server is listening at 'localhost:3000'");
-});
-
-
 var seedData2 = {
 	Search: [
 	    {
