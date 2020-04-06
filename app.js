@@ -46,11 +46,9 @@ app.get("/search", (req, res)=>{
 	// 	if(!error && response.statusCode == 200){
 	// 		var data = JSON.parse(body);
 	// 		console.log(response.statusCode);
-	// 		// console.log(data);
 	// 		if(query.t || query.i){
 	// 			res.render("show", {data : data});
 	// 		}else if(data.Response == "True"){
-	// 			// console.log(data);
 	// 			res.render("results", {
 	// 				data : data,
 	// 				search : search,
@@ -65,19 +63,15 @@ app.get("/search", (req, res)=>{
 	// 		res.send("Error Occured! Please Try again");
 	// 	}
 	// });
-	res.render("results", {
-		data : seedData2,
-		search : search,
-		current: pageNo,
-		pages: Math.ceil(seedData2['totalResults']/10)
-	});
-	// res.render("results", { data: seedData2, title: false });
-	// res.render("show", {data : seedData });
+	// res.render("results", {
+	// 	data : seedData2,
+	// 	search : search,
+	// 	current: pageNo,
+	// 	pages: Math.ceil(seedData2['totalResults']/10)
+	// });
+	res.render("show", {data : seedData });
 });
 
-app.get("/search/page", (req, res)=>{
-
-});
 
 
 //show route
@@ -89,7 +83,6 @@ app.get("/search/:imdbID", (req, res)=>{
 			if(!error && response.statusCode == 200){
 				let data = JSON.parse(body);
 				console.log(response.statusCode);
-				// console.log(data);
 				if(data.Response == "True"){
 					res.render("show", {data: data});
 					res.render("show", {data: seedData});
@@ -213,6 +206,6 @@ var seedData2 = {
 	      Poster: 'N/A'
 	    }
 	 ],
-	 totalResults: '200',
+	 totalResults: '10',
 	 Response: 'True'
 }

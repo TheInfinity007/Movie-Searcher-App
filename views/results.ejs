@@ -64,7 +64,7 @@
 			<% if(current == pages){ %>
 				<li class="page-item disabled"><a class="page-link">»</a></li>
 			<% }else{ %>
-				<li class="page-item"><a class="page-link">»</a></li>
+				<li class="page-item"><a href="/search<% if(search){%>?<%=search%>&page=<%= Number(current) + 1 %><% } %>" class="page-link">»</a></li>
 			<% } %>
 
 			<% if(current == pages){ %>

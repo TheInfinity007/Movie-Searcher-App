@@ -67,6 +67,11 @@ h4.title
 {
 	margin-bottom:1rem;
 }
+.card-body
+{
+	padding:14px;
+	padding-bottom:6px;
+}
 @media(min-width: 768px){
 	.card
 	{
