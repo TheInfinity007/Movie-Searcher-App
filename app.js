@@ -26,10 +26,8 @@ app.get("/search", (req, res)=>{
 		let yearQuery = req.query.y;
 
 		var pageNo = pageQuery ? pageQuery : 1;
-		console.log("PageNo = " + pageNo);
 
-		console.log("Parsed Url = " + req._parsedUrl.query);
-		console.log(query);
+		// console.log(query);
 		let url;
 		if(searchQueryType === "i" || searchQueryType === "t"){
 			url = "http://www.omdbapi.com/?" + req._parsedUrl.query + "&plot=full&apikey=" + process.env.OMDB_API_KEY;
@@ -37,13 +35,13 @@ app.get("/search", (req, res)=>{
 			var search = searchQueryType + "=" + searchQuery + "&y=" + yearQuery;
 			url = "http://www.omdbapi.com/?" + search + "&page=" + pageNo + "&apikey=" + process.env.OMDB_API_KEY;
 		}
-		console.log(url);
+		// console.log(url);
 		let msg = "";
 		request(url, (error, response, body)=>{
 			if(!error && response.statusCode == 200){
 				var data = JSON.parse(body);
-				console.log(response.statusCode);
-				if(query.t || query.i){
+				// console.log(response.statusCode);
+				if((query.t || query.i) && data.Response == "True"){
 					res.render("show", {data : data});
 				}else if(data.Response == "True"){
 					res.render("results", {
@@ -62,8 +60,8 @@ app.get("/search", (req, res)=>{
 				}
 			}else{
 				console.log(error);
-				msg = "Error Occured! Please Try again";
-				res.render("search", { msg: msg });
+				// msg = "Error Occured! Please Try again";
+				res.redirect("back");
 			}
 		});
 	}else{
@@ -75,18 +73,17 @@ app.get("/search", (req, res)=>{
 
 //show route
 app.get("/search/:imdbID", (req, res)=>{
-	console.log("IMDB route");
 	let url = "http://www.omdbapi.com/?i=" + req.params.imdbID + "&plot=full&apikey=" + process.env.OMDB_API_KEY;
-	console.log(url);
+	// console.log(url);
 	request(url, (error, response, body)=>{
 		if(!error && response.statusCode == 200){
 			let data = JSON.parse(body);
-			console.log(response.statusCode);
+			// console.log(response.statusCode);
 			if(data.Response == "True"){
 				res.render("show", {data: data});
-				res.render("show", {data: seedData});
+				// res.render("show", {data: seedData});
 			}else{
-				console.log(data);
+				// console.log(data);
 				let msg = "";
 				if(data.Error == "Too many results."){
 					msg = data.Error + " Please type a meaningful word.";
@@ -95,8 +92,8 @@ app.get("/search/:imdbID", (req, res)=>{
 				res.redirect("back");				
 			}
 		}else{
-			let msg = "Please try again!";
-			res.render("search");
+			// let msg = data.Error + "Please try again";
+			res.redirect("back");
 		}
 	});
 });
