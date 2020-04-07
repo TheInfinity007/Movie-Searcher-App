@@ -1,76 +1,80 @@
 require("dotenv").config();
-var PORT = process.env.PORT || 3000;
 
-const 	express 	= require("express"),
-		ejs				= require("ejs"),
-		bodyParser	= require("body-parser"),
-		path 				= require("path"),
-		request			= require("request");
-		app				= express();
+const express = require("express");
+const ejs = require("ejs");
+const bodyParser	= require("body-parser");
+const request = require("request");
+const app	= express();
 
 app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
 app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get("/", (req, res)=>{
-	res.render("search");
+	let msg="";
+	res.render("search", { msg: msg });
 });
 
 //index route
 app.get("/search", (req, res)=>{
-	let query = req.query;
+	if(req.query.s || req.query.t || req.query.i){
+		console.log(req.query);
+		console.log(req.query.length);
+		let query = req.query;
+		var pageQuery = parseInt(req.query.page);
+		var searchQuery = req.query.t || req.query.i || req.query.s;
+		var searchQueryType = req.query.t?"t" :  (req.query.i ?"i" : "s");
+		let yearQuery = req.query.y;
+		console.log("Search Query = " + searchQuery);
+		console.log("Search Query Type = " + searchQueryType);
+		console.log("Year Query = '" + yearQuery + "'");
 
-	var pageQuery = parseInt(req.query.page);
-	var searchQuery = req.query.t || req.query.i || req.query.s;
-	var searchQueryType = req.query.t?"t" :  (req.query.i ?"i" : "s");
-	let yearQuery = req.query.y;
-	console.log("Search Query = " + searchQuery);
-	console.log("Search Query Type = " + searchQueryType);
-	console.log("Year Query = '" + yearQuery + "'");
+		var pageNo = pageQuery ? pageQuery : 1;
+		console.log("PageNo = " + pageNo);
 
-	var pageNo = pageQuery ? pageQuery : 1;
-	console.log("PageNo = " + pageNo);
-
-	console.log("Parsed Url = " + req._parsedUrl.query);
-	console.log(query);
-	let url;
-	if(searchQueryType === "i" || searchQueryType === "t"){
-		url = "http://www.omdbapi.com/?" + req._parsedUrl.query + "&plot=full&apikey=" + process.env.OMDB_API_KEY;
-	}else{
-		var search = searchQueryType + "=" + searchQuery + "&y=" + yearQuery;
-		url = "http://www.omdbapi.com/?" + search + "&page=" + pageNo + "&apikey=" + process.env.OMDB_API_KEY;
-	}
-	console.log(url);
-	request(url, (error, response, body)=>{
-		if(!error && response.statusCode == 200){
-			var data = JSON.parse(body);
-			console.log(response.statusCode);
-			if(query.t || query.i){
-				res.render("show", {data : data});
-			}else if(data.Response == "True"){
-				res.render("results", {
-					data : data,
-					search : search,
-					current: pageNo,
-					pages: Math.ceil(data['totalResults']/10)
-				});
-			}else{
-				res.send(data);
-			}
+		console.log("Parsed Url = " + req._parsedUrl.query);
+		console.log(query);
+		let url;
+		if(searchQueryType === "i" || searchQueryType === "t"){
+			url = "http://www.omdbapi.com/?" + req._parsedUrl.query + "&plot=full&apikey=" + process.env.OMDB_API_KEY;
 		}else{
-			console.log(error);
-			res.send("Error Occured! Please Try again");
+			var search = searchQueryType + "=" + searchQuery + "&y=" + yearQuery;
+			url = "http://www.omdbapi.com/?" + search + "&page=" + pageNo + "&apikey=" + process.env.OMDB_API_KEY;
 		}
-	});
-	// res.render("results", {
-	// 	data : seedData2,
-	// 	search : search,
-	// 	current: pageNo,
-	// 	pages: Math.ceil(seedData2['totalResults']/10)
-	// });
-	// res.render("show", {data : seedData });
+		console.log(url);
+		let msg = "";
+		request(url, (error, response, body)=>{
+			if(!error && response.statusCode == 200){
+				var data = JSON.parse(body);
+				console.log(response.statusCode);
+				if(query.t || query.i){
+					res.render("show", {data : data});
+				}else if(data.Response == "True"){
+					res.render("results", {
+						data : data,
+						search : search,
+						current: pageNo,
+						pages: Math.ceil(data['totalResults']/10),
+					});
+				}else{
+					console.log(data);
+					if(data.Error == "Too many results."){
+						msg = data.Error + " Please type a meaningful word.";
+					}else{
+						msg = data.Error + "Please try again!";
+					}
+					res.render("search", {msg : msg});
+				}
+			}else{
+				console.log(error);
+				msg = "Error Occured! Please Try again";
+				res.render("search", { msg: msg });
+			}
+		});
+	}else{
+		res.redirect("/");
+	}
 });
 
 
@@ -78,26 +82,37 @@ app.get("/search", (req, res)=>{
 //show route
 app.get("/search/:imdbID", (req, res)=>{
 	console.log("IMDB route");
-		let url = "http://www.omdbapi.com/?i=" + req.params.imdbID + "&plot=full&apikey=" + process.env.OMDB_API_KEY;
-		console.log(url);
-		request(url, (error, response, body)=>{
-			if(!error && response.statusCode == 200){
-				let data = JSON.parse(body);
-				console.log(response.statusCode);
-				if(data.Response == "True"){
-					res.render("show", {data: data});
-					res.render("show", {data: seedData});
-				}else{
-					res.send(data);
-				}
+	let url = "http://www.omdbapi.com/?i=" + req.params.imdbID + "&plot=full&apikey=" + process.env.OMDB_API_KEY;
+	console.log(url);
+	request(url, (error, response, body)=>{
+		if(!error && response.statusCode == 200){
+			let data = JSON.parse(body);
+			console.log(response.statusCode);
+			if(data.Response == "True"){
+				res.render("show", {data: data});
+				res.render("show", {data: seedData});
 			}else{
-				res.send("Error Occured! Please Try again");
+				console.log(data);
+				let msg = "";
+				if(data.Error == "Too many results."){
+					msg = data.Error + " Please type a meaningful word.";
+				}else{
+					msg = "Please try again. Network issue" + data.Error;
+				}
+				res.render("search", {msg : msg});
 			}
-		});
-		// res.render("show", {data: seedData});
+		}else{
+			let msg = "Please try again!";
+			res.render("search");
+		}
+	});
 });
 
-app.listen(PORT, ()=>{
+app.get("/*", (req, res)=>{
+	res.redirect("back");
+});
+
+app.listen(process.env.PORT || 3000, ()=>{
 	console.log("Movie App has started!!");
 	console.log("Server is listening at 'localhost:3000'");
 });

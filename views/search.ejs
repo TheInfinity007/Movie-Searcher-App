@@ -1,5 +1,12 @@
 <%- include('partials/header') %>
 <div class="container">
+	<% if(msg && msg.length > 0){%>
+		<div class="alert alert-danger alert-dismissible">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<%= msg %>
+		</div>
+	<% } %>
+
 	<div class="row justify-content-center">
 		<div class="col-md-6">
 			<div class="heading mt-5">
