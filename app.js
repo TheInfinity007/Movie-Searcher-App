@@ -19,16 +19,11 @@ app.get("/", (req, res)=>{
 //index route
 app.get("/search", (req, res)=>{
 	if(req.query.s || req.query.t || req.query.i){
-		console.log(req.query);
-		console.log(req.query.length);
 		let query = req.query;
-		var pageQuery = parseInt(req.query.page);
-		var searchQuery = req.query.t || req.query.i || req.query.s;
-		var searchQueryType = req.query.t?"t" :  (req.query.i ?"i" : "s");
+		let pageQuery = parseInt(req.query.page);
+		let searchQuery = req.query.t || req.query.i || req.query.s;
+		let searchQueryType = req.query.t?"t" :  (req.query.i ?"i" : "s");
 		let yearQuery = req.query.y;
-		console.log("Search Query = " + searchQuery);
-		console.log("Search Query Type = " + searchQueryType);
-		console.log("Year Query = '" + yearQuery + "'");
 
 		var pageNo = pageQuery ? pageQuery : 1;
 		console.log("PageNo = " + pageNo);
@@ -61,10 +56,9 @@ app.get("/search", (req, res)=>{
 					console.log(data);
 					if(data.Error == "Too many results."){
 						msg = data.Error + " Please type a meaningful word.";
-					}else{
-						msg = data.Error + "Please try again!";
+						return res.render("search", {msg : msg});
 					}
-					res.render("search", {msg : msg});
+					res.redirect("back");
 				}
 			}else{
 				console.log(error);
@@ -96,10 +90,9 @@ app.get("/search/:imdbID", (req, res)=>{
 				let msg = "";
 				if(data.Error == "Too many results."){
 					msg = data.Error + " Please type a meaningful word.";
-				}else{
-					msg = "Please try again. Network issue" + data.Error;
+					return res.render("search", {msg : msg});
 				}
-				res.render("search", {msg : msg});
+				res.redirect("back");				
 			}
 		}else{
 			let msg = "Please try again!";
@@ -109,7 +102,7 @@ app.get("/search/:imdbID", (req, res)=>{
 });
 
 app.get("/*", (req, res)=>{
-	res.redirect("back");
+	res.redirect("/");
 });
 
 app.listen(process.env.PORT || 3000, ()=>{
