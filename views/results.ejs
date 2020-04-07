@@ -15,7 +15,7 @@
 		<% data["Search"].forEach((movie)=>{ %>
 			<div class="col-md-6 col-lg-3">
 				<div class="card">
-					<img class="card-img-top" src="<%if(movie['Poster'] == 'N/A'){%><%}else{%><%= movie['Poster'] %><%}%>" alt="<%= movie['Title'] %>.jpg">
+					<img class="card-img-top" src="<%if(movie['Poster'] == 'N/A'){%>https://res.cloudinary.com/infinity99/image/upload/v1586284960/movieSearchApp/pikachu_zwpedv.jpg<%}else{%><%= movie['Poster'] %><%}%>" alt="<%= movie['Title'] %>.jpg">
 					<div class="card-body text-dark">
 						<h4 class="title"><%= movie['Title'] %> <span class="year"><h5>(<%= movie['Year'] %>)</h5></span></h4>
 						<div>
